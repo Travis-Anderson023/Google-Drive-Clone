@@ -15,6 +15,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
+    "@graphql-tools/utils": "^9.2.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
@@ -28,8 +29,10 @@
     "react-is": "^18.2.0",
     "react-router-dom": "6.8.1",
     "react-use": "^17.4.0",
+    "reflect-metadata": "^0.1.13",
     "styled-components": "^5.3.9",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "type-graphql": "^1.1.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.3",
