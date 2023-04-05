@@ -1,14 +1,23 @@
+import { useToggle } from 'react-use';
+import { useGetAllBooksQuery } from './api/gql/generated/schema';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 export function App() {
+  const [testQuery, toggle] = useToggle(true)
+  const {data} = useGetAllBooksQuery({
+    skip:testQuery
+  })
+  const books = data?.books ?? []
+
   return (
     <>
       <NxWelcome title="frontend" />
-
       <div />
-
+    <Button onClick={toggle}>click me!</Button>
+    <pre>{JSON.stringify(books,null,2)}</pre>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
