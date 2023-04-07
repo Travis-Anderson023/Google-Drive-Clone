@@ -11,7 +11,7 @@ export class UserResolver {
     //     return [this.user,this.user,this.user,this.user]
     // }
     @Query(()=>User)
-    public async findUserById(@Arg('input') input:FindUserByIdInput){
+    public async findUserById(@Arg('input') input: FindUserByIdInput){
       return UserModel.findById(input.id).exec()
     }
     

@@ -6,9 +6,7 @@ import { lexicographicSortSchema } from 'graphql'
 
 const Resolvers = Object.values(ResolversObj)
 
-const containerResolver = ({context}:ResolverData<any>) => {
-    return (context.conatiner)
-}
+const containerResolver = ({context}:ResolverData<any>) => context.conatiner
 
 type BuildSchemaOptions = {
     attachContainer?:boolean

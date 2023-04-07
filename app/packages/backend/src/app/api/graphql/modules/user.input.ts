@@ -2,9 +2,9 @@ import { Field, ID, InputType } from "type-graphql";
 import { User } from "../../../db/entities/user.entity";
 
 @InputType()
-export class FindUserByIdInput {
-    @Field(()=>ID)
-    id:string
+export class FindUserByIdInput implements Partial<User>{
+    @Field(() => ID)
+    id: string
 }
 
 @InputType()

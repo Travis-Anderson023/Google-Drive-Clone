@@ -1,9 +1,9 @@
 import { ID, Field, ObjectType } from "type-graphql"
 import {getModelForClass, prop} from "@typegoose/typegoose"
-import { EntityTemplate } from "./entityTemplate"
+
 
 @ObjectType()
-export class File extends EntityTemplate{
+export class File{
     @Field(()=>ID)
     @prop({type:()=>String})
     id:string
