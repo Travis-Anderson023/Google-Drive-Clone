@@ -8,7 +8,8 @@
     "generate:gql:frontend:watch": "graphql-codegen --config graphQLFrontendCodeGen.ts",
     "lint:nibble": "eslint-nibble packages/*/src/app --ext .ts,.tsx --cache",
     "lint:nibble:frontend": "eslint-nibble packages/frontend/src/app --ext .ts,.tsx --cache",
-    "lint:nibble:backend": "eslint-nibble packages/backend/src/app --ext .ts --cache"
+    "lint:nibble:backend": "eslint-nibble packages/backend/src/app --ext .ts --cache",
+    "precommit": "lint-staged"
   },
   "private": true,
   "dependencies": {
@@ -91,6 +92,7 @@
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "jsdom": "~20.0.3",
+    "lint-staged": "^13.1.0",
     "nx": "15.9.2",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",

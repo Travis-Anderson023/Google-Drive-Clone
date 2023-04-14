@@ -1,0 +1,10 @@
+{
+  "license": "none",
+  "scripts": {
+    "prepare": "husky install",
+    "precommit": "cd app && yarn precommit"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3"
+  }
+}
