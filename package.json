@@ -2,9 +2,11 @@
   "license": "none",
   "scripts": {
     "prepare": "husky install",
-    "precommit": "cd app && yarn precommit"
+    "precommit": "cd app && yarn run lint-staged"
   },
   "devDependencies": {
-    "husky": "^8.0.3"
+    "eslint": "^8.38.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1"
   }
 }
