@@ -28,10 +28,7 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "extends": [".typescript.eslintrc.json", ".typescript.strictNullChecks.eslintrc.json"],
       "parserOptions": {
         "project": ["tsconfig.*?.json"]
