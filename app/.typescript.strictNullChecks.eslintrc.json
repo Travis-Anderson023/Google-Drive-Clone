@@ -1,0 +1,7 @@
+{
+  "parserOptions": {
+    "project": "./tsconfig.strictNullChecks.json"
+  },
+  "plugins": [],
+  "rules": {}
+}

@@ -1,18 +1,101 @@
 {
   "extends": ["plugin:@nrwl/nx/react", "../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "**/generated/*.ts"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "packages/frontend/tsconfig.*?.json"
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+      "rules": {
+        "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }]
+      },
+      "parserOptions": {
+        "project": ["packages/frontend/tsconfig.*?.json"]
+      }
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "extends": ["./.react.eslintrc.json"],
+      "rules": {
+        "import/default": "off",
+        "max-lines": ["error", 300],
+        "import/order": [
+          "warn",
+          {
+            "groups": ["builtin", "external", "internal", "parent", "sibling"],
+            "pathGroups": [
+              {
+                "pattern": "react",
+                "group": "external",
+                "position": "before"
+              },
+              {
+                "pattern": "@mantine/**",
+                "group": "external",
+                "position": "after"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": ["react"],
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
     }
+    //    {
+    //      "files": ["*.graphql"],
+    //      "extends": "plugin:@graphql-eslint/operations-all",
+    //      "rules": {
+    //        "@graphql-eslint/known-directives": 0,
+    //        "@graphql-eslint/fields-on-correct-type": 0,
+    //        "@graphql-eslint/no-one-place-fragments": 0,
+    //        "@graphql-eslint/executable-definitions": "warn",
+    //        "@graphql-eslint/match-document-filename": [
+    //          "warn",
+    //          {
+    //            "mutation": {
+    //              "style": "camelCase",
+    //              "suffix": ".mutation"
+    //            },
+    //            "query": {
+    //              "style": "camelCase",
+    //              "suffix": ".query"
+    //            },
+    //            "subscription": {
+    //              "style": "camelCase",
+    //              "suffix": ".subscription"
+    //            }
+    //          }
+    //        ],
+    //        "@graphql-eslint/naming-convention": [
+    //          "warn",
+    //          {
+    //            "VariableDefinition": "camelCase",
+    //            "OperationDefinition": {
+    //              "style": "PascalCase",
+    //              "forbiddenPrefixes": ["Query", "Mutation", "Subscription"],
+    //              "forbiddenSuffixes": ["Query", "Mutation", "Subscription"]
+    //            },
+    //            "FragmentDefinition": {
+    //              "style": "PascalCase",
+    //              "forbiddenPrefixes": ["Fragment"],
+    //              "forbiddenSuffixes": ["Fragment"]
+    //            }
+    //          }
+    //        ]
+    //      }
+    //    }
   ]
 }
