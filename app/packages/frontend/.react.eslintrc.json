@@ -12,7 +12,7 @@
     "react/jsx-props-no-spreading": 0, // We are okay with prop spreading for now
     "react/no-multi-comp": "warn",
     "react/jsx-no-useless-fragment": ["error", { "allowExpressions": true }],
-    "react/jsx-no-literals": "warn",
+    "react/jsx-no-literals": 0,
     "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }], // Matches our current pattern of components "arrow-functions". Default was: "function-expressions"
     // Below TBD
     "react/jsx-indent": 0,

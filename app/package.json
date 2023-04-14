@@ -5,7 +5,10 @@
   "scripts": {
     "dev:frontend": "nx run frontend:serve:dev --with-deps",
     "dev:backend": "nx run backend:serve:dev",
-    "generate:gql:frontend:watch": "graphql-codegen --config graphQLFrontendCodeGen.ts"
+    "generate:gql:frontend:watch": "graphql-codegen --config graphQLFrontendCodeGen.ts",
+    "lint:nibble": "eslint-nibble packages/*/src/app --ext .ts,.tsx --cache",
+    "lint:nibble:frontend": "eslint-nibble packages/frontend/src/app --ext .ts,.tsx --cache",
+    "lint:nibble:backend": "eslint-nibble packages/backend/src/app --ext .ts --cache"
   },
   "private": true,
   "dependencies": {
