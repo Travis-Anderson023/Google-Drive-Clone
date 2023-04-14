@@ -1,61 +1,31 @@
-import { useToggle } from 'react-use';
-import { useGetAllBooksQuery } from './api/gql/generated/schema';
-import NxWelcome from './nx-welcome';
+import { Button, FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
+import { Route, Routes, Link } from "react-router-dom";
+import { useToggle } from "react-use";
 
-import { Route, Routes, Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { useGetAllUsersQuery } from "./api/gql/generated/schema";
+import CreateUserForm from "./pages/CreateUserForm";
 
-export function App() {
-  const [testQuery, toggle] = useToggle(true)
-  const {data} = useGetAllBooksQuery({
-    skip:testQuery
-  })
-  const books = data?.books ?? []
+export const App = () => {
+  const [testQuery, toggle] = useToggle(true);
+  const { data } = useGetAllUsersQuery({
+    skip: testQuery,
+  });
+  const users = data?.getAllUsers ?? [];
 
   return (
-    <>
-      <NxWelcome title="frontend" />
-      <div />
-    <Button onClick={toggle}>click me!</Button>
-    <pre>{JSON.stringify(books,null,2)}</pre>
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
-    </>
+    <Routes>
+      <Route path="/create-user" element={<CreateUserForm />} />
+      <Route
+        path="/page-2"
+        element={
+          <div>
+            <Button onClick={toggle}>click me!</Button>
+            <pre>{JSON.stringify(users, null, 2)}</pre>
+          </div>
+        }
+      />
+    </Routes>
   );
-}
+};
 
 export default App;

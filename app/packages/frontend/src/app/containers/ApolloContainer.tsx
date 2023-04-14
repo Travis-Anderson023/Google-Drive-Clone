@@ -1,13 +1,14 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client"
-import { PropsWithChildren } from "react"
+import { PropsWithChildren } from "react";
 
-const cache = new InMemoryCache()
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+const cache = new InMemoryCache();
 const client = new ApolloClient({
-    cache,
-    uri:'http://localhost:5555'
-})
-const ApolloContainer = ({children}:PropsWithChildren) => {
-    return (<ApolloProvider client={client} children={children} />)
-}
+  cache,
+  uri: "http://localhost:5555",
+});
+const ApolloContainer = ({ children }: PropsWithChildren) => {
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+};
 
-export default ApolloContainer
+export default ApolloContainer;

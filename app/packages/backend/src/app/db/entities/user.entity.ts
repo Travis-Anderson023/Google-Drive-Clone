@@ -1,25 +1,23 @@
-import { ID, Field, ObjectType } from "type-graphql"
-import {getModelForClass, prop} from "@typegoose/typegoose"
-import { File } from "./file.entity"
+import { getModelForClass, prop } from "@typegoose/typegoose";
+import { ID, Field, ObjectType } from "type-graphql";
 
-const nullable = true
 @ObjectType()
 export class User {
-    @Field(()=>ID)
-    @prop({type:()=>String})
-    id:string
+  @Field(() => ID)
+  // @prop({type:()=>String})
+  _id: string;
 
-    @Field(()=>String)
-    @prop({type:()=>String})
-    name:string
+  @Field(() => String)
+  @prop({ required: true, index: { unique: true }, type: () => String })
+  name: string;
 
-    @Field(()=>String)
-    @prop({type:()=>String})
-    password:string
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  password: string;
 
-    @Field(()=>File,{nullable})
-    @prop({type:()=>File})
-    file:File
+  @Field(() => String, { nullable: true })
+  @prop({ type: () => String })
+  role: string;
 }
 
-export const UserModel = getModelForClass(User)
+export const UserModel = getModelForClass(User);
