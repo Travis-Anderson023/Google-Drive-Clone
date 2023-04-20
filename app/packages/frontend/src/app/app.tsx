@@ -1,17 +1,28 @@
-import { Button, FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
-import { Route, Routes, Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 import { useToggle } from "react-use";
 
 import { useGetAllUsersQuery } from "./api/gql/generated/schema";
 import CreateUserForm from "./pages/CreateUserForm";
-
+import PreLogin from "./pages/PreLogin";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/Signup";
 export const App = () => {
   const [testQuery, toggle] = useToggle(true);
   const { data } = useGetAllUsersQuery({
     skip: testQuery,
   });
   const users = data?.getAllUsers ?? [];
-
+  const isLoggedIn = false;
+  if (!isLoggedIn) {
+    return (
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<PreLogin />} />
+      </Routes>
+    );
+  }
   return (
     <Routes>
       <Route path="/create-user" element={<CreateUserForm />} />

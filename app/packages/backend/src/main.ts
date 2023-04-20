@@ -28,5 +28,4 @@ const main = async () => {
 };
 
 // eslint-disable-next-line no-console
-void main().catch((err) => //console.log(err)
-);
+void main()
