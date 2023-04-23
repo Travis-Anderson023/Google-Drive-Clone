@@ -1,3 +1,5 @@
+import * as env from "env-var";
+
 import { backendConfig } from "./backend.config";
 import frontendConfig from "./frontend.config";
 
