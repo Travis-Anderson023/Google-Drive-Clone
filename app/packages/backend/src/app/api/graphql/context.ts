@@ -34,6 +34,7 @@ const createContextBuilder = async ({
   const user = await UserModel.findById(decodedToken.userId)
     .exec()
     .catch((e) => {
+      //eslint-disable-next-line no-console
       console.log(e);
       return undefined;
     });

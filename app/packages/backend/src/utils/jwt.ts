@@ -26,7 +26,6 @@ export const decodeJwtToken = (token: string): JwtTokenParams | undefined => {
   try {
     return jwt.verify(token, environmentConfig.backend.JWT_PRIVATE_KEY) as JwtTokenParams;
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 };

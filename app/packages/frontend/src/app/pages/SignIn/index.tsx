@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-//import { ReactComponent as SVGLogo } from "../../../../src/assets/menu.svg";
+import { ReactComponent as SVGLogo } from "../../../../src/assets/menu.svg";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -31,9 +31,8 @@ const SignIn = () => {
             borderRadius: "10px",
           }}
         >
-          {/* <div>
+          {/* <div> */}
           <SVGLogo />
-        </div> TODO=> Moon take a look at this and explain it to me later internet says its a typescript error. See https://stackoverflow.com/questions/54121536/typescript-module-svg-has-no-exported-member-reactcomponent */}
           <Typography variant="h4" sx={{ mb: 2 }}>
             Sign In
           </Typography>

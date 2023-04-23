@@ -4,7 +4,6 @@ import { from, HttpLink } from "@apollo/client";
 import { createPersistedQueryLink } from "@apollo/client/link/persisted-queries";
 import { sha256 } from "crypto-hash";
 
-
 const persistedQueryLink = createPersistedQueryLink({ sha256 });
 
 //Todo: Batch query
@@ -20,6 +19,6 @@ export const useAuthenticatedHttpLink = () => {
           Authorization: `Bearer ${token ? token : ""}`,
         },
       }),
-      ]);
-    }, [token]);
+    ]);
+  }, [token]);
 };
