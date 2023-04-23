@@ -1,10 +1,19 @@
 {
   "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*", "**/generated/*.ts*"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "packages/backend/tsconfig.*?.json"
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {},
+      "rules": {
+        "max-lines": ["error", 500]
+      },
       "parserOptions": {
         "project": ["packages/backend/tsconfig.*?.json"]
       }

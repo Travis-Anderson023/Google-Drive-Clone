@@ -16,3 +16,12 @@ export class CreateUserInput implements Partial<User> {
   @Field(() => String)
   password?: string;
 }
+
+@InputType()
+export class LoginUserInput implements Partial<User> {
+  @Field(() => String)
+  name: string;
+
+  @Field(() => String)
+  password?: string;
+}

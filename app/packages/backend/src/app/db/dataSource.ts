@@ -1,6 +1,7 @@
+import { environmentConfig } from "@app/shared-utils";
 import * as mongoose from "mongoose";
 
-import { environment } from "../../environment/environment";
-
 export const initConnection = async () =>
-  await mongoose.connect(environment.MONGOOSE_URL, { dbName: environment.DB_NAME });
+  await mongoose.connect(environmentConfig.backend.MONGOOSE_URL ?? "", {
+    dbName: environmentConfig.backend.DB_NAME,
+  });
