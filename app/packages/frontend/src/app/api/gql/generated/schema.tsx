@@ -1,9 +1,9 @@
+import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from "@apollo/client/cache";
 import { gql } from "@apollo/client";
 import * as Apollo from "@apollo/client";
-import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from "@apollo/client/cache";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends Record<string, unknown>> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
@@ -21,18 +21,29 @@ export type CreateUserInput = {
   password: Scalars["String"];
 };
 
+export type LoginUserInput = {
+  name: Scalars["String"];
+  password: Scalars["String"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   createUser: User;
+  loginUser: Scalars["String"];
 };
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
+export type MutationLoginUserArgs = {
+  input: LoginUserInput;
+};
+
 export type Query = {
   __typename?: "Query";
   getAllUsers: User[];
+  getUser: User;
 };
 
 export type User = {
@@ -45,6 +56,12 @@ export type User = {
 
 export type UserFragment = { __typename?: "User"; _id: string; name: string; role?: string | null };
 
+export type LoginUserMutationVariables = Exact<{
+  input: LoginUserInput;
+}>;
+
+export type LoginUserMutation = { __typename?: "Mutation"; loginUser: string };
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -54,27 +71,29 @@ export type CreateUserMutation = {
   createUser: { __typename?: "User"; _id: string; name: string; role?: string | null };
 };
 
-export type GetAllUsersQueryVariables = Exact<Record<string, never>>;
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllUsersQuery = {
   __typename?: "Query";
   getAllUsers: { __typename?: "User"; _id: string; name: string; role?: string | null }[];
 };
 
-export type MutationKeySpecifier = ("createUser" | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ("createUser" | "loginUser" | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
-  createUser?: FieldPolicy | FieldReadFunction;
+  createUser?: FieldPolicy<any> | FieldReadFunction<any>;
+  loginUser?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type QueryKeySpecifier = ("getAllUsers" | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ("getAllUsers" | "getUser" | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
-  getAllUsers?: FieldPolicy | FieldReadFunction;
+  getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>;
+  getUser?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type UserKeySpecifier = ("_id" | "name" | "password" | "role" | UserKeySpecifier)[];
 export type UserFieldPolicy = {
-  _id?: FieldPolicy | FieldReadFunction;
-  name?: FieldPolicy | FieldReadFunction;
-  password?: FieldPolicy | FieldReadFunction;
-  role?: FieldPolicy | FieldReadFunction;
+  _id?: FieldPolicy<any> | FieldReadFunction<any>;
+  name?: FieldPolicy<any> | FieldReadFunction<any>;
+  password?: FieldPolicy<any> | FieldReadFunction<any>;
+  role?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type StrictTypedTypePolicies = {
   Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
@@ -98,6 +117,42 @@ export const UserFragmentDoc = gql`
     role
   }
 `;
+export const LoginUserDocument = gql`
+  mutation loginUser($input: LoginUserInput!) {
+    loginUser(input: $input)
+  }
+`;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+}
+export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<
+  LoginUserMutation,
+  LoginUserMutationVariables
+>;
 export const CreateUserDocument = gql`
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -181,6 +236,7 @@ export const namedOperations = {
     GetAllUsers: "GetAllUsers",
   },
   Mutation: {
+    loginUser: "loginUser",
     CreateUser: "CreateUser",
   },
   Fragment: {

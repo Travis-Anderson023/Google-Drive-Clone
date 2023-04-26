@@ -1,12 +1,59 @@
-import { useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as SVGLogo } from "../../../../src/assets/menu.svg";
+import { useToggle } from "react-use";
+
+import { ReactComponent as SVGLogo } from "../../../../src/assets/logo.svg";
+import { useLoginUserMutation } from "../../api/gql/generated/schema";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    userName: "",
+    password: "",
+    showPassword: false,
+  });
+  // Form should only display one field at a time
+  const [stepIsUsername, toggleStep] = useToggle(true);
   const navigate = useNavigate();
+
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const propToUpdate = event.target.name;
+      const newValue = event.target.value;
+      setFormData((prevVal) => ({ ...prevVal, [propToUpdate]: newValue }));
+    },
+    [setFormData],
+  );
+
+  const [loginUser] = useLoginUserMutation({
+    variables: {
+      input: {
+        name: formData.userName,
+        password: formData.password,
+      },
+    },
+  });
+
+  const handleNext = useCallback(async () => {
+    if (stepIsUsername) {
+      toggleStep();
+    } else {
+      try {
+        const result = await loginUser();
+        //store jwt token as cookie
+        if (result.data?.loginUser) document.cookie = `token=${result.data.loginUser}`;
+        navigate("/");
+      } catch (err) {
+        alert("Invalid username or password");
+      }
+    }
+  }, [stepIsUsername, toggleStep, loginUser, navigate]);
+
+  const createAccount = useCallback(() => {
+    navigate("/signup");
+  }, [navigate]);
+
   return (
     <Box
       sx={{
@@ -31,32 +78,46 @@ const SignIn = () => {
             borderRadius: "10px",
           }}
         >
-          {/* <div> */}
           <SVGLogo />
-          <Typography variant="h4" sx={{ mb: 2 }}>
+          <Typography variant="h4" sx={{ mb: 2, mt: 2 }}>
             Sign In
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
             to continue to Google Drive
           </Typography>
-          <FormControl fullWidth>
-            <InputLabel id="email">Email</InputLabel>
-            {/* TODO moon remove this rule. */}
-            {/* eslint-disable-next-line react/jsx-no-bind  */}
-            <TextField
-              id="email"
-              variant="outlined"
-              value={email}
-              // eslint-disable-next-line react/jsx-no-bind
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
+          {stepIsUsername ? (
+            <FormControl fullWidth>
+              <InputLabel id="userName" shrink={Boolean(formData.userName)}>
+                User Name
+              </InputLabel>
+              <TextField
+                id="userName"
+                variant="outlined"
+                value={formData.userName}
+                name="userName"
+                onChange={handleOnChange}
+              />
+            </FormControl>
+          ) : (
+            <FormControl fullWidth>
+              <InputLabel id="password" shrink={Boolean(formData.password)}>
+                Password
+              </InputLabel>
+              <TextField
+                id="password"
+                variant="outlined"
+                value={formData.password}
+                name="password"
+                onChange={handleOnChange}
+              />
+            </FormControl>
+          )}
           <Box sx={{ width: "100%", textAlign: "start" }}>
             <Button variant="text" size="small" disabled>
-              Forgot email?
+              Forgot Username?
             </Button>
           </Box>
-          <Typography variant="body1" sx={{ mt: 2 }}>
+          <Typography variant="body1" sx={{ mt: 2 }} color="text.secondary">
             Not your computer? Use Guest mode to sign in privately.
           </Typography>
           <Box sx={{ width: "100%", textAlign: "start" }}>
@@ -65,11 +126,10 @@ const SignIn = () => {
             </Button>
           </Box>
           <Box sx={{ mt: 2, width: "100%", display: "flex", justifyContent: "space-between" }}>
-            <Button variant="text" size="small" onClick={() => navigate("/signup")}>
+            <Button variant="text" size="small" onClick={createAccount}>
               Create account
             </Button>
-            {/* TODO moon: signin*/}
-            <Button variant="contained" size="small">
+            <Button variant="contained" size="small" onClick={handleNext}>
               Next
             </Button>
           </Box>

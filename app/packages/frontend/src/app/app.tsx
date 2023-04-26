@@ -1,19 +1,14 @@
-import { Button } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { useToggle } from "react-use";
 
-import { useGetAllUsersQuery } from "./api/gql/generated/schema";
-import CreateUserForm from "./pages/CreateUserForm";
+// import { useGetAllUsersQuery } from "./api/gql/generated/schema";
 import PreLogin from "./pages/PreLogin";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
 export const App = () => {
-  const [testQuery, toggle] = useToggle(true);
-  const { data } = useGetAllUsersQuery({
-    skip: testQuery,
-  });
-  const users = data?.getAllUsers ?? [];
-  const isLoggedIn = false;
+  //eslint-disable-next-line
+  const [isLoggedIn, toggleLoggedIn] = useToggle(false);
+
   if (!isLoggedIn) {
     return (
       <Routes>
@@ -25,16 +20,7 @@ export const App = () => {
   }
   return (
     <Routes>
-      <Route path="/create-user" element={<CreateUserForm />} />
-      <Route
-        path="/page-2"
-        element={
-          <div>
-            <Button onClick={toggle}>click me!</Button>
-            <pre>{JSON.stringify(users, null, 2)}</pre>
-          </div>
-        }
-      />
+      <Route path="/page-2" element={<div>TEST</div>} />
     </Routes>
   );
 };

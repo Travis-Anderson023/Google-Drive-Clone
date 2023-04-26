@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 import {
   Box,
@@ -12,18 +12,54 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-//import { ReactComponent as SVGLogo } from "../../../../src/assets/menu.svg";
+
+import { ReactComponent as SVGLogo } from "../../../../src/assets/logo.svg";
+import { useCreateUserMutation } from "../../api/gql/generated/schema";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    UserName: "",
+    name: "",
     password: "",
     confirmPassword: "",
     showPassword: false,
   });
   const navigate = useNavigate();
+
+  const [createUser] = useCreateUserMutation({
+    variables: {
+      input: {
+        name: formData.name,
+        password: formData.password,
+      },
+    },
+  });
+
+  const handleNext = useCallback(async () => {
+    try {
+      const result = await createUser();
+      if (result.data?.createUser) {
+        navigate("/signin");
+      }
+    } catch (err) {
+      alert("Error creating user");
+    }
+  }, [createUser, navigate]);
+
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const propToUpdate = event.target.name;
+      const newValue = event.target.value;
+      setFormData((prevVal) => ({ ...prevVal, [propToUpdate]: newValue }));
+    },
+    [setFormData],
+  );
+
+  const signInInstead = useCallback(() => {
+    navigate("/signin");
+  }, [navigate]);
+
   return (
     <Box
       sx={{
@@ -57,10 +93,8 @@ const SignUp = () => {
               alignItems: "start",
             }}
           >
-            {/* <div>
-          <SVGLogo />
-        </div> TODO=> Moon take a look at this and explain it to me later internet says its a typescript error. See https://stackoverflow.com/questions/54121536/typescript-module-svg-has-no-exported-member-reactcomponent */}
-            <Typography variant="h4" sx={{ mb: 2 }}>
+            <SVGLogo />
+            <Typography variant="h4" sx={{ mb: 2, mt: 2 }}>
               Create your Google Account
             </Typography>
             <Typography variant="body1" sx={{ mb: 2 }}>
@@ -69,7 +103,6 @@ const SignUp = () => {
             <span style={{ display: "flex", justifyContent: "space-between", width: "100%", gap: "10px" }}>
               <FormControl fullWidth size="small">
                 <InputLabel id="first-name" shrink={Boolean(formData.firstName)}>
-                  {" "}
                   First Name
                 </InputLabel>
                 <TextField
@@ -77,8 +110,8 @@ const SignUp = () => {
                   id="first-name"
                   variant="outlined"
                   value={formData.firstName}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  name="firstName"
+                  onChange={handleOnChange}
                 />
               </FormControl>
               <FormControl size="small" fullWidth>
@@ -90,22 +123,22 @@ const SignUp = () => {
                   id="last-name"
                   variant="outlined"
                   value={formData.lastName}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  name="lastName"
+                  onChange={handleOnChange}
                 />
               </FormControl>
             </span>
             <FormControl fullWidth sx={{ mt: 2 }} size="small">
-              <InputLabel id="user-name" shrink={Boolean(formData.UserName)}>
+              <InputLabel id="user-name" shrink={Boolean(formData.name)}>
                 User Name
               </InputLabel>
               <TextField
                 size="small"
                 id="user-name"
                 variant="outlined"
-                value={formData.UserName}
-                // eslint-disable-next-line react/jsx-no-bind
-                onChange={(e) => setFormData({ ...formData, UserName: e.target.value })}
+                value={formData.name}
+                name="name"
+                onChange={handleOnChange}
               />
             </FormControl>
             <Typography variant="body1" color="text.secondary" sx={{ fontSize: "12px", ml: 2 }}>
@@ -129,8 +162,8 @@ const SignUp = () => {
                   id="password"
                   variant="outlined"
                   value={formData.password}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  name="password"
+                  onChange={handleOnChange}
                 />
               </FormControl>
               <FormControl size="small" fullWidth>
@@ -142,8 +175,8 @@ const SignUp = () => {
                   id="confirm-password"
                   variant="outlined"
                   value={formData.confirmPassword}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  name="confirmPassword"
+                  onChange={handleOnChange}
                 />
               </FormControl>
             </span>
@@ -160,19 +193,18 @@ const SignUp = () => {
                 size="small"
                 id="show-password"
                 value={formData.showPassword}
-                // eslint-disable-next-line react/jsx-no-bind
-                onChange={(e) => setFormData({ ...formData, showPassword: Boolean(e.target.value) })}
+                name="showPassword"
+                onChange={handleOnChange}
               />
               <InputLabel id="show-password" shrink={Boolean(formData.showPassword)}>
                 Show Password
               </InputLabel>
             </FormControl>
             <Box sx={{ mt: 2, width: "100%", display: "flex", justifyContent: "space-between" }}>
-              <Button variant="text" size="small" onClick={() => navigate("/signin")}>
+              <Button variant="text" size="small" onClick={signInInstead}>
                 Sign in instead
               </Button>
-              {/* todo Create Account */}
-              <Button variant="contained" size="small">
+              <Button variant="contained" size="small" onClick={handleNext}>
                 Next
               </Button>
             </Box>
