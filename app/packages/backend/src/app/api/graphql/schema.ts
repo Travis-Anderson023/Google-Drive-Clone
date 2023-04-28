@@ -2,6 +2,7 @@ import { printSchemaWithDirectives } from "@graphql-tools/utils";
 import { lexicographicSortSchema } from "graphql";
 import { NonEmptyArray, ResolverData, buildSchema } from "type-graphql";
 
+import { customAuthChecker } from "./authChecker";
 import { registerEnums } from "./enums/enums";
 import * as ResolversObj from "./modules";
 //import { outputFile } from "type-graphql/dist/helpers/filesystem";
@@ -23,6 +24,7 @@ export const buildGoogleDriveCloneSchema = async (options?: BuildSchemaOptions) 
     dateScalarMode: "isoDate",
     container: attachContainer ? containerResolver : undefined,
     validate: { forbidUnknownValues: false },
+    authChecker: customAuthChecker,
   });
 };
 
