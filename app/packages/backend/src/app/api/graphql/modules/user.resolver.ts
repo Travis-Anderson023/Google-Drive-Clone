@@ -2,29 +2,30 @@ import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 
 import { createJwtToken } from "../../../../utils/jwt";
 import { User, UserModel } from "../../../db/entities/user.entity";
-import { GoogleDriveCloneContext } from "../context";
+import { RequiredRole } from "../../../decorators/requireRole";
+import { GoogleDriveCloneContext, RoleEnum } from "../context";
 
 import { CreateUserInput, LoginUserInput } from "./user.input";
 
 @Resolver(User)
 export class UserResolver {
+  @RequiredRole(RoleEnum.ADMIN)
   @Query(() => [User])
   public async getAllUsers() {
-    const temp = await UserModel.find().exec();
-    return [...(await UserModel.find().exec())];
+    return UserModel.find().exec();
   }
   // @Query(()=>User)
   // public async findUserById(@Arg('input') input: FindUserByIdInput){
   //   return UserModel.findById(input.id).exec()
   // }
-
+  @RequiredRole(RoleEnum.USER)
   @Query(() => User)
   public async getUser(@Ctx() ctx: GoogleDriveCloneContext) {
     const { user } = ctx;
     if (!user) {
       throw new Error("You are not logged in");
     }
-    return user;
+    return await user;
   }
 
   @Mutation(() => String)

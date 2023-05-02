@@ -6,6 +6,7 @@ import { useToggle } from "react-use";
 
 import { ReactComponent as SVGLogo } from "../../../../src/assets/logo.svg";
 import { useLoginUserMutation } from "../../api/gql/generated/schema";
+import { useApolloLinkConfig } from "../../reactiveVar/apolloLinkConfigVar";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const SignIn = () => {
     password: "",
     showPassword: false,
   });
+
+  const [, setApolloLinkConfig] = useApolloLinkConfig();
   // Form should only display one field at a time
   const [stepIsUsername, toggleStep] = useToggle(true);
   const navigate = useNavigate();
@@ -33,22 +36,25 @@ const SignIn = () => {
         password: formData.password,
       },
     },
+    onCompleted: (data) => {
+      //store jwt token as cookie
+      if (data.loginUser) {
+        setApolloLinkConfig({ token: data.loginUser });
+        navigate("/");
+      }
+    },
+    onError: () => {
+      alert("Invalid username or password");
+    },
   });
 
-  const handleNext = useCallback(async () => {
+  const handleNext = useCallback(() => {
     if (stepIsUsername) {
       toggleStep();
     } else {
-      try {
-        const result = await loginUser();
-        //store jwt token as cookie
-        if (result.data?.loginUser) document.cookie = `token=${result.data.loginUser}`;
-        navigate("/");
-      } catch (err) {
-        alert("Invalid username or password");
-      }
+      void loginUser();
     }
-  }, [stepIsUsername, toggleStep, loginUser, navigate]);
+  }, [stepIsUsername, toggleStep, loginUser]);
 
   const createAccount = useCallback(() => {
     navigate("/signup");
