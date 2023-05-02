@@ -5,6 +5,10 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
+
+  define: {
+    'process.env': process.env
+  },
   cacheDir: "../../node_modules/.vite/frontend",
 
   server: {
