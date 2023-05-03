@@ -18,7 +18,7 @@ export class UserResolver {
   // public async findUserById(@Arg('input') input: FindUserByIdInput){
   //   return UserModel.findById(input.id).exec()
   // }
-  @RequiredRole(RoleEnum.USER)
+  @RequiredRole(RoleEnum.ADMIN)
   @Query(() => User)
   public async getUser(@Ctx() ctx: GoogleDriveCloneContext) {
     const { user } = ctx;

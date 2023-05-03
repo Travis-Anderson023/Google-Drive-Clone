@@ -20,11 +20,13 @@ const theme = createTheme({
       primary: "#000000",
       secondary: "#757575",
     },
-    divider: "#BDBDBD",
+    divider: "#F5F5F5",
   },
   typography: {
-    h4: {
-      //fontFamily: "Road Rage, cursive",
+    fontFamily: "Open Sans, cursive",
+    h6: {
+      fontFamily: "Open Sans, cursive",
+      fontWeight: 600,
     },
     h1: {
       // fontFamily: "bungee, cursive",
@@ -37,7 +39,7 @@ const theme = createTheme({
   },
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <StrictMode>
     <ApolloContainer>

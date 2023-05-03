@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { ReactComponent as SVGLogo } from "../../../../src/assets/logo.svg";
-import { useCreateUserMutation } from "../../api/gql/generated/schema";
+import { ReactComponent as SVGLogo } from "../../../../../src/assets/logo.svg";
+import { useCreateUserMutation } from "../../../api/gql/generated/schema";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({

@@ -4,9 +4,9 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import { useNavigate } from "react-router-dom";
 import { useToggle } from "react-use";
 
-import { ReactComponent as SVGLogo } from "../../../../src/assets/logo.svg";
-import { useLoginUserMutation } from "../../api/gql/generated/schema";
-import { useApolloLinkConfig } from "../../reactiveVar/apolloLinkConfigVar";
+import { ReactComponent as SVGLogo } from "../../../../../src/assets/logo.svg";
+import { useLoginUserMutation } from "../../../api/gql/generated/schema";
+import { useApolloLinkConfig } from "../../../reactiveVar/apolloLinkConfigVar";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -37,8 +37,8 @@ const SignIn = () => {
       },
     },
     onCompleted: (data) => {
-      //store jwt token as cookie
       if (data.loginUser) {
+        localStorage.setItem("token", data.loginUser);
         setApolloLinkConfig({ token: data.loginUser });
         navigate("/");
       }

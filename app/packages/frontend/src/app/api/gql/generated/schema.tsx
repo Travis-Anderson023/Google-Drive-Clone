@@ -1,6 +1,6 @@
-import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from "@apollo/client/cache";
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -17,111 +17,115 @@ export type Scalars = {
 };
 
 export type CreateUserInput = {
-  name: Scalars["String"];
-  password: Scalars["String"];
+  name: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type LoginUserInput = {
-  name: Scalars["String"];
-  password: Scalars["String"];
+  name: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   createUser: User;
-  loginUser: Scalars["String"];
+  loginUser: Scalars['String'];
 };
+
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
+
 
 export type MutationLoginUserArgs = {
   input: LoginUserInput;
 };
 
 export type Query = {
-  __typename?: "Query";
-  getAllUsers: User[];
+  __typename?: 'Query';
+  getAllUsers: Array<User>;
   getUser: User;
 };
 
 export type User = {
-  __typename?: "User";
-  _id: Scalars["ID"];
-  name: Scalars["String"];
-  password: Scalars["String"];
-  role?: Maybe<Scalars["String"]>;
+  __typename?: 'User';
+  _id: Scalars['ID'];
+  name: Scalars['String'];
+  password: Scalars['String'];
+  role?: Maybe<Scalars['String']>;
 };
 
-export type UserFragment = { __typename?: "User"; _id: string; name: string; role?: string | null };
+export type UserFragment = { __typename?: 'User', _id: string, name: string, role?: string | null };
 
 export type LoginUserMutationVariables = Exact<{
   input: LoginUserInput;
 }>;
 
-export type LoginUserMutation = { __typename?: "Mutation"; loginUser: string };
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser: string };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
-export type CreateUserMutation = {
-  __typename?: "Mutation";
-  createUser: { __typename?: "User"; _id: string; name: string; role?: string | null };
-};
 
-export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, name: string, role?: string | null } };
 
-export type GetAllUsersQuery = {
-  __typename?: "Query";
-  getAllUsers: { __typename?: "User"; _id: string; name: string; role?: string | null }[];
-};
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MutationKeySpecifier = ("createUser" | "loginUser" | MutationKeySpecifier)[];
+
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', _id: string, name: string, role?: string | null }> };
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', _id: string, name: string, role?: string | null } };
+
+export type MutationKeySpecifier = ('createUser' | 'loginUser' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
-  createUser?: FieldPolicy<any> | FieldReadFunction<any>;
-  loginUser?: FieldPolicy<any> | FieldReadFunction<any>;
+	createUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	loginUser?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ("getAllUsers" | "getUser" | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getAllUsers' | 'getUser' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
-  getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>;
-  getUser?: FieldPolicy<any> | FieldReadFunction<any>;
+	getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>,
+	getUser?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ("_id" | "name" | "password" | "role" | UserKeySpecifier)[];
+export type UserKeySpecifier = ('_id' | 'name' | 'password' | 'role' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
-  _id?: FieldPolicy<any> | FieldReadFunction<any>;
-  name?: FieldPolicy<any> | FieldReadFunction<any>;
-  password?: FieldPolicy<any> | FieldReadFunction<any>;
-  role?: FieldPolicy<any> | FieldReadFunction<any>;
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	password?: FieldPolicy<any> | FieldReadFunction<any>,
+	role?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
-  Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
-    keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier);
-    fields?: MutationFieldPolicy;
-  };
-  Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
-    keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier);
-    fields?: QueryFieldPolicy;
-  };
-  User?: Omit<TypePolicy, "fields" | "keyFields"> & {
-    keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier);
-    fields?: UserFieldPolicy;
-  };
+	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
+		fields?: MutationFieldPolicy,
+	},
+	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
+		fields?: QueryFieldPolicy,
+	},
+	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
+		fields?: UserFieldPolicy,
+	}
 };
 export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;
 export const UserFragmentDoc = gql`
-  fragment User on User {
-    _id
-    name
-    role
-  }
-`;
+    fragment User on User {
+  _id
+  name
+  role
+}
+    `;
 export const LoginUserDocument = gql`
-  mutation loginUser($input: LoginUserInput!) {
-    loginUser(input: $input)
-  }
-`;
+    mutation loginUser($input: LoginUserInput!) {
+  loginUser(input: $input)
+}
+    `;
 export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
 
 /**
@@ -141,26 +145,20 @@ export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, Log
  *   },
  * });
  */
-export function useLoginUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
-}
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+      }
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
-export type LoginUserMutationOptions = Apollo.BaseMutationOptions<
-  LoginUserMutation,
-  LoginUserMutationVariables
->;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
 export const CreateUserDocument = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      ...User
-    }
+    mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    ...User
   }
-  ${UserFragmentDoc}
-`;
+}
+    ${UserFragmentDoc}`;
 export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
@@ -180,26 +178,20 @@ export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, C
  *   },
  * });
  */
-export function useCreateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
-}
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
-  CreateUserMutation,
-  CreateUserMutationVariables
->;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const GetAllUsersDocument = gql`
-  query GetAllUsers {
-    getAllUsers {
-      ...User
-    }
+    query GetAllUsers {
+  getAllUsers {
+    ...User
   }
-  ${UserFragmentDoc}
-`;
+}
+    ${UserFragmentDoc}`;
 
 /**
  * __useGetAllUsersQuery__
@@ -216,30 +208,61 @@ export const GetAllUsersDocument = gql`
  *   },
  * });
  */
-export function useGetAllUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
-}
-export function useGetAllUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
-}
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
 export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
 export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
 export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser {
+  getUser {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const namedOperations = {
   Query: {
-    GetAllUsers: "GetAllUsers",
+    GetAllUsers: 'GetAllUsers',
+    GetUser: 'GetUser'
   },
   Mutation: {
-    loginUser: "loginUser",
-    CreateUser: "CreateUser",
+    loginUser: 'loginUser',
+    CreateUser: 'CreateUser'
   },
   Fragment: {
-    User: "User",
-  },
-};
+    User: 'User'
+  }
+}
