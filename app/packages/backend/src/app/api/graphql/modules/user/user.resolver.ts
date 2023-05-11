@@ -1,9 +1,9 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 
-import { createJwtToken } from "../../../../utils/jwt";
-import { User, UserModel } from "../../../db/entities/user.entity";
-import { RequiredRole } from "../../../decorators/requireRole";
-import { GoogleDriveCloneContext, RoleEnum } from "../context";
+import { createJwtToken } from "../../../../../utils/jwt";
+import { User, UserModel } from "../../../../db/entities/user.entity";
+import { RequiredRole } from "../../../../decorators/requireRole";
+import { GoogleDriveCloneContext, RoleEnum } from "../../context";
 
 import { CreateUserInput, LoginUserInput } from "./user.input";
 

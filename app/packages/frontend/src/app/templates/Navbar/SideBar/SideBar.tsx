@@ -1,11 +1,45 @@
-import AddIcon from "@mui/icons-material/Add";
-import { Button, Toolbar } from "@mui/material";
 import { useCallback } from "react";
 
+import AddIcon from "@mui/icons-material/Add";
+import { Button, Toolbar } from "@mui/material";
+
+import { useSingleFileUpload } from "../../../api/gql/hooks/useSingleFileUpload";
+import { useAdvancedToggle } from "../../../hooks/useAdvancedToggle";
+
 const SideBar = () => {
-  const handleUpload = useCallback(() => {
-    // todo change to mutation
-  }, []);
+  const [isDropzoneOpen, { toggle: toggleDropzone }] = useAdvancedToggle(false);
+  const [uploadFile, { loading, error }] = useSingleFileUpload();
+
+  console.log({ loading, error });
+
+  // const handleFileDrop = useCallback(() => {
+  //   console.log("A file was dropped");
+  // }, []);
+
+  const handleUpload = useCallback(
+    ({
+      target: {
+        // validity,
+        // @ts-expect-error
+        files: [file],
+      },
+    }) => {
+      // const files = event?.target?.files ?? [];
+      // const validity = event?.target?.value;
+      // if (!validity && files.length > 0) {
+      //   console.log("error in either value of valididty");
+      //   console.log({ filesLength: files.length, validity });
+      //   return;
+      // }
+      // const file = event.target.files;
+
+      // const formData = new FormData();
+      // formData.append("file", file);
+
+      uploadFile({ variables: { file } });
+    },
+    [uploadFile],
+  );
 
   return (
     <Toolbar
@@ -27,10 +61,9 @@ const SideBar = () => {
             },
             padding: "12px 48px",
           }}
-          onClick={handleUpload}
         >
           Upload
-          <input hidden accept="image/*" multiple type="file" onChange={handleUpload} />
+          <input hidden type="file" onChange={handleUpload} />
         </Button>
       </div>
     </Toolbar>
