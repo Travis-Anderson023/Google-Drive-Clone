@@ -9,13 +9,8 @@ import { buildGoogleDriveCloneSchema } from "./schema";
 export const startGraphQLServer = async () => {
   const schema = await buildGoogleDriveCloneSchema({ attachContainer: true });
   const server = new ApolloServer({
-    gateway: undefined,
-    typeDefs: undefined,
     schema,
-    csrfPrevention: true,
-    // cors: {
-    //   origin: ["*"],
-    // },
+    // csrfPrevention: true,
   });
   const { url } = await startStandaloneServer(server, {
     listen: { port: environmentConfig.backend.PORT },

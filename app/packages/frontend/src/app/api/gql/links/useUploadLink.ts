@@ -14,6 +14,7 @@ export const useUploadLink = (token: ApolloLinkConfigVar["token"]) => {
       preserveHeaderCase: true,
       headers: {
         Authorization: `Bearer ${token ? token : ""}`,
+        "Apollo-Require-Preflight": "true",
       },
     });
   }, [token]);

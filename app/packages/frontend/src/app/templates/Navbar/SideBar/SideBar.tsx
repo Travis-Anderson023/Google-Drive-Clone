@@ -1,42 +1,32 @@
-import { useCallback } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Toolbar } from "@mui/material";
 
 import { useSingleFileUpload } from "../../../api/gql/hooks/useSingleFileUpload";
-import { useAdvancedToggle } from "../../../hooks/useAdvancedToggle";
 
 const SideBar = () => {
-  const [isDropzoneOpen, { toggle: toggleDropzone }] = useAdvancedToggle(false);
   const [uploadFile, { loading, error }] = useSingleFileUpload();
 
-  console.log({ loading, error });
-
-  // const handleFileDrop = useCallback(() => {
-  //   console.log("A file was dropped");
-  // }, []);
-
   const handleUpload = useCallback(
-    ({
-      target: {
-        // validity,
-        // @ts-expect-error
-        files: [file],
-      },
-    }) => {
-      // const files = event?.target?.files ?? [];
-      // const validity = event?.target?.value;
-      // if (!validity && files.length > 0) {
-      //   console.log("error in either value of valididty");
-      //   console.log({ filesLength: files.length, validity });
-      //   return;
-      // }
-      // const file = event.target.files;
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const validity = e.target.validity;
+      // eslint-disable-next-line no-console
+      console.log({ validity });
+      const isValid = validity.valid;
+      if (!isValid) {
+        alert("Validity issue");
+        return;
+      }
 
-      // const formData = new FormData();
-      // formData.append("file", file);
+      const file = e.target.files?.item(1) ?? undefined;
 
-      uploadFile({ variables: { file } });
+      if (!file) {
+        alert("file not valid");
+        return;
+      }
+
+      void uploadFile({ variables: { file } });
     },
     [uploadFile],
   );
@@ -63,6 +53,7 @@ const SideBar = () => {
           }}
         >
           Upload
+          {/*<TextField hidden type="file" onChange={handleUpload} />*/}
           <input hidden type="file" onChange={handleUpload} />
         </Button>
       </div>
