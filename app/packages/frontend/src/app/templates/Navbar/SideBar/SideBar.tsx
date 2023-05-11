@@ -6,7 +6,9 @@ import { Button, Toolbar } from "@mui/material";
 import { useSingleFileUpload } from "../../../api/gql/hooks/useSingleFileUpload";
 
 const SideBar = () => {
-  const [uploadFile, { loading, error }] = useSingleFileUpload();
+  const [uploadFile, { loading, error }] = useSingleFileUpload({
+    onError: () => alert("THERE WAS AN ERROR"),
+  });
 
   const handleUpload = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,7 @@ const SideBar = () => {
         return;
       }
 
-      const file = e.target.files?.item(1) ?? undefined;
+      const file = e.target.files?.item(0) ?? undefined;
 
       if (!file) {
         alert("file not valid");
