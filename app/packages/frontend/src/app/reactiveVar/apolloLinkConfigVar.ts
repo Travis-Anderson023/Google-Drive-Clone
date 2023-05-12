@@ -5,7 +5,7 @@ export type ApolloLinkConfigVar = {
 };
 
 const apolloLinkConfigVar = makeVar<ApolloLinkConfigVar>({
-  token: undefined,
+  token: localStorage.getItem("token")! ?? undefined,
 });
 
 export const useApolloLinkConfig = () => {

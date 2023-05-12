@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -10,12 +10,14 @@ import SignUp from "./pages/signedOut/Signup";
 import { useApolloLinkConfig } from "./reactiveVar/apolloLinkConfigVar";
 
 export const App = () => {
-  const [, setApolloLinkConfig] = useApolloLinkConfig();
-  const apolloLinkConfig = useMemo(() => {
-    return { token: localStorage.getItem("token")! };
-  }, []);
-  setApolloLinkConfig(apolloLinkConfig);
-  const { data: user, loading } = useGetUserQuery();
+  const [{ token }, setApolloLinkConfig] = useApolloLinkConfig();
+  const { data: user, loading } = useGetUserQuery({
+    skip: !token,
+    onError: () => {
+      localStorage.removeItem("token");
+      setApolloLinkConfig({ token: undefined });
+    },
+  });
 
   if (loading) {
     //so that the user doesn't see the login page for a split second
